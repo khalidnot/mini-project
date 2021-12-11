@@ -2,34 +2,41 @@
 
 class Image_converter
 {
-    
+
     public $target_dir = 'uploads/';
 
     //image upload handler
     public function upload_image($files, $input_name)
     {
 
-        $target_dir = "$this->target_dir/";
+        $target_dir = "$this->target_dir";
+
 
         //get the basename of the uploaded file
         $base_name = basename($files[$input_name]["name"]);
 
+        // 12.png
+
         //get the image type from the uploaded image
         $imageFileType = $this->get_image_type($base_name);
 
+        // png
 
-        //set dynamic name for the uploaded file
+
+        //set new dynamic name for the uploaded file
         $new_name = $this->get_dynamic_name($base_name, $imageFileType);
 
+        // 12_1639255043.png
 
         //set the target file for uploading
         $target_file = $target_dir . $new_name;
 
+        // uploads/12_1639255073.png
 
         // Check uploaded is a valid image
         $validate = $this->validate_image($files[$input_name]["tmp_name"]);
         if (!$validate) {
-            return "Doesn't seem like an image file :(";
+            return "The file you upload is not image file";
         }
 
         // Check file size - restrict if greater than 1 MB
@@ -47,7 +54,11 @@ class Image_converter
         if (move_uploaded_file($files[$input_name]["tmp_name"], $target_file)) {
 
             //return new image name and image file type;
-            return array($new_name, $imageFileType);
+            return [
+                $new_name,
+                $imageFileType
+            ];
+
         } else {
             return "Sorry, there was an error uploading your file.";
         }
@@ -59,7 +70,7 @@ class Image_converter
     {
 
         $image_quality = 100;
-        
+
         $target_dir = "$this->target_dir/";
 
         $image = $target_dir . $image_name;
@@ -94,10 +105,10 @@ class Image_converter
 
     protected function get_image_type($target_file)
     {
-        $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
-        return $imageFileType;
+        return pathinfo($target_file, PATHINFO_EXTENSION);
     }
 
+    // check if the file upload is image or not .
     protected function validate_image($file)
     {
         $check = getimagesize($file);
@@ -126,13 +137,7 @@ class Image_converter
 
     protected function get_dynamic_name($basename, $imagetype)
     {
-        $only_name = basename($basename, '.' . $imagetype); // remove extension
-
-        $combine_time = $only_name . '_' . time();
-
-        $new_name = $combine_time . '.' . $imagetype;
-
-        return $new_name;
+        return basename($basename, '.' . $imagetype) . '_' . time() . '.' . $imagetype;
     }
 
     protected function remove_extension_from_image($image)

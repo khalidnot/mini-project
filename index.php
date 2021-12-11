@@ -8,7 +8,6 @@ if ($_FILES) {
     //call upload function and send the $_FILES, target folder and input name
     $upload = $obj->upload_image($_FILES, 'fileToUpload');
 
-
     if (is_array($upload)) {
         $imageName = urlencode($upload[0]);
         $imageType = urlencode($upload[1]);
@@ -21,68 +20,81 @@ if ($_FILES) {
     }
 }
 ?>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Image Converter</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        body {
-            background: white;
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
         }
 
-        table {
-            margin-top: 200px;
-            background: lightgray;
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
         }
     </style>
-    <script>
-        function checkEmpty() {
-            var img = document.getElementById('fileToUpload').value;
-            if (img == '') {
-                alert('Error : Please upload an image')
-                return false;
-            }
-            return true;
-        }
-    </script>
+    <!-- Custom styles for this template -->
+    <link href="assets/css/style.css" rel="stylesheet">
 </head>
-<body>
-<table width="550" align="center">
-    <tr>
-        <td align="center">
-            <h2 align="center">Welcome to Image Converter :)</h2>
-        </td>
-    </tr>
-    <tr>
-        <td align="center">
-            <h4 align="center">Make sure the size file maximize  1MB</h4>
-        </td>
-    </tr>
+<body class="text-center">
+
+<main class="form-signin">
+    <form action="" enctype="multipart/form-data" method="post"
+          onsubmit="return checkEmpty()"/>
+    <img class="mb-4" src="https://cti.edu.sa/img/tvtclogo1.svg">
+    <h1 class="h4 mb-4 fw-normal">Welcome to Image Converter</h1>
     <?php if (isset($upload) && !is_array($upload))
-    echo '<tr>
-        <td align="center">
-            <h4 style="color: red" id="error">Error :' . $upload .'</h4>
-        </td>
-    </tr>';
+        echo '<div class="alert alert-danger" role="alert">
+  <p>' . $upload . '</p>
+</div>';
     ?>
     <?php if (isset($_GET['error']))
-    echo '<tr>
-        <td align="center">
-            <h4 style="color: red" id="error">Error :' . $_GET['error'] .'</h4>
-        </td>
-    </tr>';
+        echo '<div class="alert alert-danger" role="alert">
+  <p>' . $_GET['error'] . '</p>
+</div>';
+
     ?>
-    <tr>
-        <td align="center">
-            <form action="" enctype="multipart/form-data" method="post" onsubmit="return checkEmpty()"/>
-            <input type="file" name="fileToUpload" id="fileToUpload"/>
-            <input type="submit" value="Upload"/>
-            </form>
-        </td>
-    </tr>
-    <tr>
-        <td align="center">
-            <h4>Developed by Mr.Muath / Eng.Khalid</h4>
-        </td>
-    </tr>
-</table>
+
+    <div class="alert alert-primary" role="alert">
+        <h4  class="h6 mb-4 fw-normal">Before you upload the file make sure it's under there's requirement :</h4>
+    <ul style="text-align: left">
+        <li>Size file maximize 1MB</li>
+        <li>Allowed image types in : jpg, png, jpeg</li>
+    </ul>
+    </div>
+    <div class="form-group">
+        <input type="file" class="form-control" id="fileToUpload" name="fileToUpload">
+    </div>
+    <br/>
+    <button class="w-100 btn btn-lg btn-primary" type="submit" value="Upload">Upload</button>
+    <p class="mt-5 mb-3 text-muted">Developed by
+    <a href="https://twitter.com/MoathDev" target="_blank">@Moathdev</a>
+    & <a href="https://twitter.com/khalidTurkai" target="_blank">@Khalid Turkai</a>
+    </p>
+    </form>
+</main>
 </body>
+<script>
+    function checkEmpty() {
+        var img = document.getElementById('fileToUpload').value;
+        if (img == '') {
+            alert('Error : Please upload an image')
+            return false;
+        }
+        return true;
+    }
+</script>
 </html>
+

@@ -31,91 +31,91 @@ if ($_POST) {
     }
 }
 
-
 //convert types
 $types = array(
     'png' => 'PNG',
     'jpg' => 'JPG',
 );
 ?>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Image Converter</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        img {
-            max-width: 360px;
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
         }
 
-        body {
-            background: lightgray;
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
         }
-
     </style>
+    <!-- Custom styles for this template -->
+    <link href="assets/css/style.css" rel="stylesheet">
 </head>
-<body>
-<?php if (!$download) { ?>
-    <form method="post" action="">
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <table width="500" align="center">
-            <tr>
+<body class="text-center">
 
-                <td align="center">
-                    File Uploaded, Select below option to convert!
-                    <img src="<?= $obj->target_dir.'/'.$imageName; ?>"/>
-                </td>
-                <br/>
-            </tr>
-            <tr>
-                <td align="center">
-                    Convert To:
-                    <select name="convert_type">
-                        <?php foreach ($types as $key => $type) { ?>
-                            <?php if ($key != $imageType) { ?>
-                                <option value="<?= $key; ?>"><?= $type; ?></option>
-                            <?php } ?>
+<main class="form-signin">
+    <img class="mb-4" src="https://cti.edu.sa/img/tvtclogo1.svg">
+    <?php if (!$download) { ?>
+        <form method="post" action="">
+            <div class="alert alert-success" role="alert">
+                File Uploaded, Select below option to convert!
+            </div>
+            <img style="max-width: 360px;" src="<?= $obj->target_dir.'/'.$imageName; ?>"/>
+            <br/>
+            <br/>
+            <br/>
+            <div class="form-group">
+                <select class="form-control" id="convert_type" name="convert_type">
+                    <?php foreach ($types as $key => $type) { ?>
+                        <?php if ($key != $imageType) { ?>
+                            <option value="<?= $key; ?>"><?= $type; ?></option>
                         <?php } ?>
-                    </select>
-                    <br/><br/>
-                </td>
-            </tr>
-            <tr>
-                <td align="center"><input type="submit" value="convert"/></td>
-            </tr>
-        </table>
-    </form>
-<?php } ?>
-<?php if ($download) { ?>
-    <table width="500" align="center">
-        <tr>
-            <td align="center">
-                Image Converted to <?php echo ucwords($convert_type); ?>
-                <img src="<?= $obj->target_dir . '/' . $image; ?>"/>
-            </td>
-        </tr>
-        <td align="center">
-
-            <a href="download.php?filepath=<?php echo $obj->target_dir . '/' . $image; ?>"/>Download Converted Image</a>
-        </td>
-        </tr>
-        <tr>
-            <td align="center"><a href="index.php">Convert Another</a></td>
-        </tr>
-    </table>
-<?php } ?>
+                    <?php } ?>
+                </select>
+            </div>
+            <br/>
+            <button class="w-100 btn btn-lg btn-primary" type="submit" value="convert">Convert</button>
+        </form>
+    <?php } ?>
+    <?php if ($download) { ?>
+    <div class="alert alert-success" role="alert">
+        Image Converted to <?php echo ucwords($convert_type); ?>
+    </div>
+    <img style="max-width: 360px;" src="<?= $obj->target_dir . '/' . $image; ?>"/>
+   <br/>
+   <br/>
+   <br/>
+        <a class="btn btn-primary" href="download.php?filepath=<?php echo $obj->target_dir . '/' . $image; ?>" role="button">Download Converted Image</a>
+        <a class="btn btn-secondary" href="index.php" role="button">Convert Another</a>
+    <?php } ?>
+    <p class="mt-4 text-muted">Developed by
+        <a href="https://twitter.com/MoathDev" target="_blank">@Moathdev</a>
+        & <a href="https://twitter.com/khalidTurkai" target="_blank">@Khalid Turkai</a>
+    </p>
+</main>
 </body>
+<script>
+    function checkEmpty() {
+        var img = document.getElementById('fileToUpload').value;
+        if (img == '') {
+            alert('Error : Please upload an image')
+            return false;
+        }
+        return true;
+    }
+</script>
 </html>
